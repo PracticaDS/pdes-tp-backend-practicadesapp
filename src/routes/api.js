@@ -13,7 +13,6 @@ router.post('/factory', (req, res) => {
 
 router.get('/factories', (req, res) => {
   return Factory.find({}).exec((error, factories) => {
-    console.log(factories);
     if (error) return res.status(400).json(error);
     return res.status(200).json(factories);
   });

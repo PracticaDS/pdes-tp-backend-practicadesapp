@@ -18,4 +18,6 @@ const close = () => {
   return mongoose.disconnect();
 };
 
-module.exports = { connect, close };
+const db = mongoose.connection;
+
+module.exports = { connect, close, db };

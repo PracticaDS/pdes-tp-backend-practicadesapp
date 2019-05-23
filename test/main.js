@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test';
 
-const { connect, close } = require('../src/config/db');
+const { connect, close, db } = require('../src/config/db');
 
 function importTest(name, path) {
   describe(name, () => {
@@ -13,6 +13,10 @@ describe('/tests/main.js', () => {
     connect()
       .then(() => done())
       .catch(err => done(err));
+  });
+
+  beforeEach(done => {
+    db.dropDatabase().then(() => done());
   });
 
   importTest('Factories', './task.spec.js');
