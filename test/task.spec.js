@@ -1,15 +1,14 @@
-const supertest = require('supertest');
-const server = require('../app');
-const assert = require('assert');
+const common = require('./common'),
+  request = common.request,
+  assert = common.assert,
+  app = common.app;
 
-describe('tests', function() {
-  it('should get status ok', function(done) {
-    supertest(server)
-      .get('/api/a')
-      .expect(200)
-      .then(res => {
-        assert.strictEqual(res.body.length, 4);
-        done();
-      });
-  });
+it('should get status ok', done => {
+  request(app)
+    .get('/api/a')
+    .expect(200)
+    .then(res => {
+      assert.strictEqual(res.body.length, 0);
+      done();
+    });
 });
