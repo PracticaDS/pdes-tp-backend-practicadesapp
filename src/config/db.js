@@ -7,10 +7,10 @@ const connect = () => {
   if (process.env.NODE_ENV === 'test') {
     const mockgoose = new Mockgoose(mongoose);
     return mockgoose.prepareStorage().then(() => {
-      return mongoose.connect(DB_URI);
+      return mongoose.connect(DB_URI, { useNewUrlParser: true });
     });
   } else {
-    return mongoose.connect(DB_URI);
+    return mongoose.connect(DB_URI, { useNewUrlParser: true });
   }
 };
 

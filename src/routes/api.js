@@ -3,20 +3,16 @@ const Factory = require('../models/factory');
 
 const router = Router();
 
-router.post('/a', (req, res) => {
-  console.log('factories');
-  const factory = new Factory({ name: 'nahu', cantMachines: 2, updatedAt: Date() });
+router.post('/factory', (req, res) => {
+  const factory = new Factory(req.body);
   return factory
     .save()
-    .then(function(factories) {
-      return res.status(200).json('saved');
-    })
+    .then(resFactory => res.status(200).json(resFactory))
     .catch(err => console.log(err));
 });
 
-router.get('/a', (req, res) => {
-  console.log('factories');
-  return Factory.find({}).exec(function(error, factories) {
+router.get('/factories', (req, res) => {
+  return Factory.find({}).exec((error, factories) => {
     console.log(factories);
     if (error) return res.status(400).json(error);
     return res.status(200).json(factories);

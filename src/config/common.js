@@ -1,6 +1,6 @@
 const request = require('supertest');
 const assert = require('assert');
-const app = require('../src/server');
+const app = require('./server');
 
 const storage = {
   userToken: null

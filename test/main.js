@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test';
 
-const { connect, close } = require('../src/db');
+const { connect, close } = require('../src/config/db');
 
 function importTest(name, path) {
   describe(name, () => {

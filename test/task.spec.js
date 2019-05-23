@@ -1,14 +1,29 @@
-const common = require('./common'),
+const common = require('../src/config/common'),
   request = common.request,
   assert = common.assert,
-  app = common.app;
+  app = common.app,
+  Factory = require('../src/models/factory');
 
-it('should get status ok', done => {
+it('should save a factory', done => {
   request(app)
-    .get('/api/a')
+    .post('/api/factory')
+    .send({ name: 'nahu', cantMachines: 2, updatedAt: Date() })
+    .expect(200, done);
+});
+
+it('should get a factory', done => {
+  request(app)
+    .get('/api/factories')
     .expect(200)
     .then(res => {
-      assert.strictEqual(res.body.length, 0);
+      assert.strictEqual(res.body.length, 1);
       done();
     });
+});
+
+it('should get a factory', done => {
+  Factory.find({ name: 'nahu' }).then(factories => {
+    assert.strictEqual(factories.length, 1);
+    done();
+  });
 });
