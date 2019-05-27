@@ -1,9 +1,11 @@
 const { Router } = require('express');
 const Factory = require('../models/factory');
+const Machine = require('../models/machine');
+const getNewMachines = require('../data/machines');
 
 const router = Router();
 
-router.post('/:user/factory', (req, res) => {
+router.post('/:user/factory', async (req, res) => {
   const factory = new Factory({
     user: req.params.user,
     name: req.body.name,
@@ -12,7 +14,13 @@ router.post('/:user/factory', (req, res) => {
   });
   return factory
     .save()
-    .then(resFactory => res.status(200).json(resFactory))
+    .then(resFactory => {
+      const machines = getNewMachines(String(resFactory._id), req.body.src);
+      machines[24] = Object.assign({}, machines[24], { className: 'dselected' });
+      return Promise.all(machines.map(machine => new Machine(machine).save())).then(() =>
+        res.status(200).json('factory created')
+      );
+    })
     .catch(err => res.status(400).json(err));
 });
 

@@ -7,14 +7,14 @@ const common = require('../src/config/common'),
 it('should save a factory', done => {
   request(app)
     .post('/api/nahu/factory')
-    .send({ name: 'factory1' })
+    .send({ name: 'factory1', src: 'a' })
     .expect(200, done);
 });
 
 it('should get a factory', done => {
   request(app)
     .post('/api/nahu/factory')
-    .send({ name: 'factory1' })
+    .send({ name: 'factory1', src: 'a' })
     .expect(200)
     .then(() => {
       request(app)
@@ -30,7 +30,7 @@ it('should get a factory', done => {
 it('should get a factory with find db', done => {
   request(app)
     .post('/api/nahu/factory')
-    .send({ name: 'factory1' })
+    .send({ name: 'factory1', src: 'a' })
     .expect(200)
     .then(() => {
       Factory.find().then(factories => {
