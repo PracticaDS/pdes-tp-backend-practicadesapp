@@ -18,7 +18,7 @@ router.post('/:user/factory', async (req, res) => {
       const machines = getNewMachines(String(resFactory._id), req.body.src);
       machines[24] = Object.assign({}, machines[24], { className: 'dselected' });
       return Promise.all(machines.map(machine => new Machine(machine).save())).then(() =>
-        res.status(200).json('factory created')
+        res.status(200).json(resFactory)
       );
     })
     .catch(err => res.status(400).json(err));
@@ -26,6 +26,12 @@ router.post('/:user/factory', async (req, res) => {
 
 router.get('/:user/factories', (req, res) =>
   Factory.find({ user: req.params.user })
+    .then(factories => res.status(200).json(factories))
+    .catch(err => res.status(400).json(err))
+);
+
+router.get('/:factoryId/machines', (req, res) =>
+  Machine.find({ factoryId: req.params.factoryId })
     .then(factories => res.status(200).json(factories))
     .catch(err => res.status(400).json(err))
 );
