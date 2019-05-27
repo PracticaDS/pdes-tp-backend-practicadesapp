@@ -13,7 +13,7 @@ router.post('/:user/factory', (req, res) => {
   return factory
     .save()
     .then(resFactory => res.status(200).json(resFactory))
-    .catch(err => console.log(err));
+    .catch(err => res.status(400).json(err));
 });
 
 router.get('/:user/factories', (req, res) =>
