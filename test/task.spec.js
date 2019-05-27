@@ -6,19 +6,17 @@ const common = require('../src/config/common'),
 
 it('should save a factory', done => {
   request(app)
-    .post('/api/factory')
-    .send({ name: 'nahu', cantMachines: 2, updatedAt: Date() })
+    .post('/api/nahu/factory')
     .expect(200, done);
 });
 
 it('should get a factory', done => {
   request(app)
-    .post('/api/factory')
-    .send({ name: 'nahu', cantMachines: 2, updatedAt: Date() })
+    .post('/api/nahu/factory')
     .expect(200)
     .then(() => {
       request(app)
-        .get('/api/factories')
+        .get('/api/nahu/factories')
         .expect(200)
         .then(res => {
           assert.strictEqual(res.body.length, 1);
@@ -29,7 +27,7 @@ it('should get a factory', done => {
 
 it('should get a factory with find db', done => {
   request(app)
-    .post('/api/factory')
+    .post('/api/nahu/factory')
     .send({ name: 'nahu', cantMachines: 2, updatedAt: Date() })
     .expect(200)
     .then(() => {
