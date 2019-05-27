@@ -63,7 +63,7 @@ it('should remove a factory', done => {
     .expect(200)
     .then(factory => {
       request(app)
-        .delete(`/api/${factory.body.user}/${factory.body.name}/factory`)
+        .delete(`/api/${factory.body._id}/factory`)
         .expect(200)
         .then(() => {
           Factory.find().then(factories => {

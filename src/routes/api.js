@@ -36,8 +36,8 @@ router.get('/:factoryId/machines', (req, res) =>
     .catch(err => res.status(400).json(err))
 );
 
-router.delete('/:user/:name/factory', (req, res) =>
-  Factory.deleteOne({ user: req.params.user, name: req.params.name }, error =>
+router.delete('/:factoryId/factory', (req, res) =>
+  Factory.deleteOne({ _id: req.params.factoryId }, error =>
     error ? res.status(400).json(error) : res.status(200).json('factory removed')
   )
 );
