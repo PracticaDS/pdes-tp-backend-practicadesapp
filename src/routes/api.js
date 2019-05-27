@@ -5,7 +5,7 @@ const getNewMachines = require('../data/machines');
 
 const router = Router();
 
-router.post('/:user/factory', async (req, res) => {
+router.post('/:user/factory', (req, res) => {
   const factory = new Factory({
     user: req.params.user,
     name: req.body.name,
@@ -34,6 +34,12 @@ router.get('/:factoryId/machines', (req, res) =>
   Machine.find({ factoryId: req.params.factoryId })
     .then(factories => res.status(200).json(factories))
     .catch(err => res.status(400).json(err))
+);
+
+router.delete('/:user/:name/factory', (req, res) =>
+  Factory.deleteOne({ user: req.params.user, name: req.params.name }, error =>
+    error ? res.status(400).json(error) : res.status(200).json('factory removed')
+  )
 );
 
 module.exports = router;
