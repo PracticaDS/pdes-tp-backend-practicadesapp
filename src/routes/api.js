@@ -43,8 +43,12 @@ router.delete('/:factoryId/factory', (req, res) =>
 );
 
 router.put('/machines', (req, res) =>
-  Promise.all(req.body.map(machine => Machine.update({ _id: machine._id }, machine)))
-    .then(() => res.status(200).json('Machines updated'))
+  Promise.all(req.body.machines.map(machine => Machine.update({ _id: machine._id }, machine)))
+    .then(() => {
+      return Factory.update({ _id: req.body.factoryId }, { cantMachines: req.body.cantMachines }).then(() =>
+        res.status(200).json('Machines updated')
+      );
+    })
     .catch(err => res.status(400).json(err))
 );
 
