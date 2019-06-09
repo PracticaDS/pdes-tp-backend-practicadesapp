@@ -1,9 +1,14 @@
-const app = require('./src/server');
+const app = require('./src/config/server');
+const db = require('./src/config/db');
 
 require('dotenv').config();
 
 const port = process.env.PORT || 3001;
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+db.connect().then(() => {
+  app.listen(port, () => {
+    console.log(`api is listening on port ${port}`);
+  });
 });
+
+module.exports = app;

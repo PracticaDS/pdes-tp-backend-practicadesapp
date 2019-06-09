@@ -5,7 +5,7 @@
     "lint-diff": "git diff --name-only --cached --relative | grep \\\\.js$ | xargs ./node_modules/eslint/bin/eslint.js",
     "lint-fix": "eslint app migrations config test --fix",
     "start": "node app.js",
-    "test": "mocha 'test/'"
+    "test": "NODE_ENV=test mocha test/main.js --timeout 20000 --recursive --exit"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -14,7 +14,9 @@
     "express-healthcheck": "^0.1.0",
     "express-validator": "^5.3.1",
     "factory-girl": "^5.0.4",
+    "mockgoose": "^8.0.2",
     "moment": "^2.22.2",
+    "mongoose": "^5.5.10",
     "morgan": "^1.9.1",
     "nock": "^9.6.1"
   },
