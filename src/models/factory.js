@@ -4,6 +4,10 @@ mongoose.Promise = require('bluebird');
 const Schema = mongoose.Schema;
 
 const FactorySchema = new Schema({
+  user: {
+    type: String,
+    required: true
+  },
   name: {
     type: String,
     required: true

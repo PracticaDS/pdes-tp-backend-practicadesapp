@@ -1,21 +1,33 @@
 const { Router } = require('express');
 const Factory = require('../models/factory');
+const Machine = require('../models/machine');
+const getNewMachines = require('../data/machines');
 
 const router = Router();
 
-router.post('/factory', (req, res) => {
-  const factory = new Factory(req.body);
+router.post('/:user/factory', async (req, res) => {
+  const factory = new Factory({
+    user: req.params.user,
+    name: req.body.name,
+    cantMachines: 0,
+    updatedAt: Date.now()
+  });
   return factory
     .save()
-    .then(resFactory => res.status(200).json(resFactory))
-    .catch(err => console.log(err));
+    .then(resFactory => {
+      const machines = getNewMachines(String(resFactory._id), req.body.src);
+      machines[24] = Object.assign({}, machines[24], { className: 'dselected' });
+      return Promise.all(machines.map(machine => new Machine(machine).save())).then(() =>
+        res.status(200).json('factory created')
+      );
+    })
+    .catch(err => res.status(400).json(err));
 });
 
-router.get('/factories', (req, res) => {
-  return Factory.find({}).exec((error, factories) => {
-    if (error) return res.status(400).json(error);
-    return res.status(200).json(factories);
-  });
-});
+router.get('/:user/factories', (req, res) =>
+  Factory.find({ user: req.params.user })
+    .then(factories => res.status(200).json(factories))
+    .catch(err => res.status(400).json(err))
+);
 
 module.exports = router;
