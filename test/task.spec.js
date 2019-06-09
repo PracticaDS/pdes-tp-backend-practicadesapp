@@ -39,3 +39,19 @@ it('should get a factory with find db', done => {
       });
     });
 });
+
+it('should get 100 machines', done => {
+  request(app)
+    .post('/api/nahu/factory')
+    .send({ name: 'factory1', src: 'a' })
+    .expect(200)
+    .then(factory => {
+      request(app)
+        .get(`/api/${String(factory.body._id)}/machines`)
+        .expect(200)
+        .then(res => {
+          assert.strictEqual(res.body.length, 100);
+          done();
+        });
+    });
+});
