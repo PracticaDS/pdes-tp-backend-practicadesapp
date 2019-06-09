@@ -55,3 +55,21 @@ it('should get 100 machines', done => {
         });
     });
 });
+
+it('should remove a factory', done => {
+  request(app)
+    .post('/api/ivan/factory')
+    .send({ name: 'factory1', src: 'a' })
+    .expect(200)
+    .then(factory => {
+      request(app)
+        .delete(`/api/${factory.body._id}/factory`)
+        .expect(200)
+        .then(() => {
+          Factory.find().then(factories => {
+            assert.strictEqual(factories.length, 0);
+            done();
+          });
+        });
+    });
+});
