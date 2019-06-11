@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const Prometheus = require('prom-client');
 const Factory = require('../models/factory');
 const Machine = require('../models/machine');
 const getNewMachines = require('../data/machines');
@@ -51,5 +52,10 @@ router.put('/machines', (req, res) =>
     })
     .catch(err => res.status(400).json(err))
 );
+
+router.get('/prometheus', (req, res) => {
+  res.set('Content-Type', Prometheus.register.contentType);
+  res.end(Prometheus.register.metrics());
+});
 
 module.exports = router;
