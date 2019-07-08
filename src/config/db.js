@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Mockgoose } = require('mockgoose');
 
-const DB_URI = 'mongodb://localhost:27017/tp';
+const DB_URI = process.env.MONGO_URL || 'mongodb://localhost:27017/tp';
 
 const connect = () => {
   if (process.env.NODE_ENV === 'test') {
